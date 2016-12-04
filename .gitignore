@@ -1,0 +1,7 @@
+/.idea
+/build
+/vendor
+.DS_Store
+/vspherebeat
+/vspherebeat.test
+*.pyc

@@ -38,12 +38,13 @@ type vm struct {
 	path        string
 	cluster     string
 	cpuLimit    int32
+	diskLimit   int64
 	memoryLimit int32
 	vsphereType string //Put "VirtualMachine" here
 }
 
 func (theVM vm) jsonRenderOnScreen() {
-	fmt.Printf("{\"name\":\"%s\", \"dc\":\"%s\", \"path\":\"%s\", \"cluster\":\"%s\", \"cpuLimit\":\"%d\", \"memoryLimit\":\"%d\", \"vsphereType\":\"%s\"}\n", theVM.name, theVM.dc, theVM.path, theVM.cluster, theVM.cpuLimit, theVM.memoryLimit, theVM.vsphereType)
+	fmt.Printf("{\"name\":\"%s\", \"dc\":\"%s\", \"path\":\"%s\", \"cluster\":\"%s\", \"cpuLimit\":\"%d\", \"memoryLimit\":\"%d\", \"diskLimit\":\"%d\", \"vsphereType\":\"%s\"}\n", theVM.name, theVM.dc, theVM.path, theVM.cluster, theVM.cpuLimit, theVM.memoryLimit, theVM.diskLimit, theVM.vsphereType)
 }
 
 type datastore struct {
@@ -76,7 +77,6 @@ func exit(err error) {
 }
 
 func getvminfo(ctx context.Context, c *govmomi.Client, theVM *object.VirtualMachine, path string, dc *object.Datacenter) vm {
-	//TODO: don't retrieve all properties on retrieveone !
 	vmoname, err := theVM.ObjectName(ctx)
 	path += "/"
 	path += vmoname
@@ -90,7 +90,7 @@ func getvminfo(ctx context.Context, c *govmomi.Client, theVM *object.VirtualMach
 
 	var vmdet mo.VirtualMachine
 
-	err = pc.RetrieveOne(ctx, vmref, nil, &vmdet)
+	err = pc.RetrieveOne(ctx, vmref, []string{"config", "summary", "storage"}, &vmdet)
 	if err != nil {
 		fmt.Printf("%s\n", err)
 	}
@@ -106,7 +106,7 @@ func getvminfo(ctx context.Context, c *govmomi.Client, theVM *object.VirtualMach
 
 		var vmRPdet mo.ResourcePool
 
-		err = pc.RetrieveOne(ctx, vmRPref, nil, &vmRPdet)
+		err = pc.RetrieveOne(ctx, vmRPref, []string{"owner"}, &vmRPdet)
 		if err != nil {
 			fmt.Printf("%s\n", err)
 		}
@@ -120,7 +120,14 @@ func getvminfo(ctx context.Context, c *govmomi.Client, theVM *object.VirtualMach
 			//fmt.Printf("Cluster Name :%s\n", ownerName)
 			cpu := vmdet.Summary.Config.NumCpu
 			memory := vmdet.Summary.Config.MemorySizeMB
-			myVM := vm{name: vmoname, dc: dc.Name(), path: path, cluster: ownerName, cpuLimit: cpu, memoryLimit: memory, vsphereType: "VirtualMachine"}
+			storageinfos := vmdet.Storage.PerDatastoreUsage
+			var alldiskspace int64
+			alldiskspace = 0
+			for _, storageinfo := range storageinfos {
+				alldiskspace += storageinfo.Committed + storageinfo.Uncommitted
+			}
+
+			myVM := vm{name: vmoname, dc: dc.Name(), path: path, cluster: ownerName, cpuLimit: cpu, memoryLimit: memory, diskLimit: alldiskspace, vsphereType: "VirtualMachine"}
 			return myVM
 		}
 		//TODO: Gérer ça comme une erreur
@@ -218,6 +225,10 @@ func main() {
 	if err != nil {
 		fmt.Printf("%s\n", err)
 	}
+
+	key := []byte("SaltKey")
+	plaintext := []byte("totopopo")
+	cipthertex
 	u.User = url.UserPassword(UserName, Password)
 	c, err := govmomi.NewClient(ctx, u, false)
 	if err != nil {

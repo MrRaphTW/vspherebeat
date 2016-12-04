@@ -1,0 +1,59 @@
+- key: vspherebeat
+  title: vspherebeat
+  description:
+  fields:
+    - name: dc
+      type: keyword
+      required: true
+      description: >
+        This handles the DataCenter information for this beat
+    - name: path
+      type: keyword
+      required: true
+      description: >
+        This represents the path of the object
+    - name: name
+      type: keyword
+      required: true
+      description: >
+        This is used for the name of the object
+    - name: totalCPU
+      type: long
+      required: false
+      description: >
+        Used for clusters, this is for the number of threads
+    - name: totalMemory
+      type: long
+      required: false
+      description: >
+        Used for clusters, this is for the memory
+    - name: nbHosts
+      type: long
+      required: false
+      description: >
+        Used for clusters, this is for the number of hosts
+    - name: cluster
+      type: keyword
+      required: false
+      description: >
+        Used for VMs, this is for the name of the cluster handling it
+    - name: cpuLimit
+      type: long
+      required: false
+      description: >
+        Used for VMs, this is for the cpuLimit
+    - name: memoryLimit
+      type: long
+      required: false
+      description: >
+        Used for VMs, this is for the memoryLimit
+    - name: capacity
+      type: long
+      required: false
+      description: >
+        Used for DataStores, this is for the capacity
+    - name: freeSpace
+      type: long
+      required: false
+      description: >
+        Used for DataStores, this is for the freeSpace

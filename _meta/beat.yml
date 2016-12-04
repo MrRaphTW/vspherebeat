@@ -1,0 +1,14 @@
+################### Vspherebeat Configuration Example #########################
+
+############################# Vspherebeat ######################################
+
+vspherebeat:
+  # Defines how often an event is sent to the output
+  period: 1w
+  URL: ""
+  UserName: ""
+  Password: ""
+  Insecure: false
+  PrecoCPUPercent: 100
+  PrecoRAMPercent: 100
+  PrecoDiskPercent: 100
