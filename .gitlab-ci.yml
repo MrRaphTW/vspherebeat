@@ -5,7 +5,7 @@ variables:
 
 before_script:
   - mkdir -p $PROJECT_PATH
-  - cp * $PROJECT_PATH
+  - cp -R * $PROJECT_PATH
   - cd $PROJECT_PATH
   - go get
 
