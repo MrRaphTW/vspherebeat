@@ -11,6 +11,7 @@ type Config struct {
 	URL              string        `config:"URL"`
 	UserName         string        `config:"UserName"`
 	Password         string        `config:"Password"`
+	EncPassword      bool          `config:"EncPassword"`
 	Insecure         bool          `config:"Insecure"`
 	PrecoCPUPercent  int           `config:"PrecoCPUPercent"`
 	PrecoRAMPercent  int           `config:"PrecoRAMPercent"`
@@ -23,6 +24,7 @@ var DefaultConfig = Config{
 	URL:              "",
 	UserName:         "",
 	Password:         "",
+	EncPassword:      false,
 	Insecure:         false,
 	PrecoCPUPercent:  100,
 	PrecoRAMPercent:  100,

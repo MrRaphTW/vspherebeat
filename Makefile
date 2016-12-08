@@ -6,8 +6,25 @@ ES_BEATS?=./vendor/github.com/elastic/beats
 GOPACKAGES=$(shell glide novendor)
 PREFIX?=.
 
+
+
 # Path to the libbeat Makefile
 -include $(ES_BEATS)/libbeat/scripts/Makefile
+
+
+.PHONY: vspherebeat
+
+vspherebeat-secured:  $(GOFILES_ALL)
+	go build -ldflags="-X git.teamwork.net/BeatsTeamwork/vspherebeat/beater.encryptionKey=${SALT_KEY}"
+	go build encryptPassword/encryptpassword.go
+
+.PHONY: full-clean
+full-clean:
+	make clean
+	rm *.json
+	rm *.yml
+	rm -rf vendor
+	rm encryptpassword
 
 # Initial beat setup
 .PHONY: setup

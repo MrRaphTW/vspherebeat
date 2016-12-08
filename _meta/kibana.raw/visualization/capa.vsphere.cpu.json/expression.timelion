@@ -1,0 +1,5 @@
+$capa=.es(index=vspherebeat*,q="vsphereType:Cluster",metric="sum:totalCPU",kibana=true).fit(mode="nearest"),
+$conso=.es(index=vspherebeat*,q="vsphereType:VirtualMachine",metric="sum:cpuLimit",kibana=true).if(eq,0,null),
+($capa).label("Capacity").yaxis(label="Number of cores"),
+($conso).trend(mode="linear").lines(10).color("#CCC").label("Evolution of CPU Assigned"),
+($conso).label("CPU assigned to VMs").title("CPU")

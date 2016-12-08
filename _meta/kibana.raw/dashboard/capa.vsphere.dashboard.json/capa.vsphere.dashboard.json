@@ -1,0 +1,13 @@
+{
+  "title": "capa.vsphere.dashboard",
+  "hits": 0,
+  "description": "",
+  "panelsJSON": "{{panelsJSON.json}}",
+  "optionsJSON": "{{optionsJSON.json}}",
+  "uiStateJSON": "{{uiStateJSON.json}}",
+  "version": 1,
+  "timeRestore": false,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "{{searchSourceJSON.json}}"
+  }
+}

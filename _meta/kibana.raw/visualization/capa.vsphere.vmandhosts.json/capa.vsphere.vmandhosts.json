@@ -1,0 +1,10 @@
+{
+  "title": "capa.vsphere.vmandhosts",
+  "visState": "{{visState.json}}",
+  "uiStateJSON": "{}",
+  "description": "",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "{}"
+  }
+}

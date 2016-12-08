@@ -1,0 +1,9 @@
+{
+    "type":"timelion",
+    "title":"capa.vsphere.vmandhosts",
+    "params":
+        {
+            "expression":"{{expression.timelion}}",
+            "interval":"1w"
+        }
+}

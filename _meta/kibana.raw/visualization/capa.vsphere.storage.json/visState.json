@@ -1,0 +1,8 @@
+{
+    "type":"timelion",
+    "title":"capa.vsphere.storage",
+    "params":{
+        "expression":"{{expression.timelion}}",
+        "interval":"1w"
+    }
+}

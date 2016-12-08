@@ -1,0 +1,10 @@
+{
+  "title": "capa.vsphere.datacenters",
+  "visState": "{{visState.json}}",
+  "uiStateJSON": "{{uiStateJSON.json}}",
+  "description": "",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "{{searchSourceJSON.json}}"
+  }
+}

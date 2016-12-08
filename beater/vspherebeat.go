@@ -2,14 +2,16 @@ package beater
 
 import (
 	"context"
+	"crypto/aes"
+	"crypto/cipher"
+	"crypto/sha256"
+	"encoding/base64"
 	"errors"
 	"flag"
 	"fmt"
 	"log"
 	"net/url"
 	"time"
-
-	"golang.org/x/crypto/blowfish"
 
 	"git.teamwork.net/BeatsTeamwork/vspherebeat/config"
 	"github.com/elastic/beats/libbeat/beat"
@@ -22,6 +24,8 @@ import (
 	"github.com/vmware/govmomi/property"
 	"github.com/vmware/govmomi/vim25/mo"
 )
+
+var encryptionKey string
 
 // Vspherebeat is the main Vspherebeat structure
 type Vspherebeat struct {
@@ -117,6 +121,49 @@ func (theDS datastore) eventRender(b *beat.Beat) common.MapStr {
 		"vsphereType":        "DataStore",
 	}
 	return event
+}
+
+func decryptString(cryptoText string, keyString string) (plainTextString string, err error) {
+
+	// Format the keyString so that it's 32 bytes.
+	newKeyString, err := hashTo32Bytes(keyString)
+
+	// Encode the cryptoText to base 64.
+	cipherText, _ := base64.URLEncoding.DecodeString(cryptoText)
+
+	block, err := aes.NewCipher([]byte(newKeyString))
+
+	if err != nil {
+		panic(err)
+	}
+
+	if len(cipherText) < aes.BlockSize {
+		panic("cipherText too short")
+	}
+
+	iv := cipherText[:aes.BlockSize]
+	cipherText = cipherText[aes.BlockSize:]
+
+	stream := cipher.NewCFBDecrypter(block, iv)
+
+	stream.XORKeyStream(cipherText, cipherText)
+
+	return string(cipherText), nil
+}
+
+func hashTo32Bytes(input string) (output string, err error) {
+
+	if len(input) == 0 {
+		return "", errors.New("No input supplied")
+	}
+
+	hasher := sha256.New()
+	hasher.Write([]byte(input))
+
+	stringToSHA256 := base64.URLEncoding.EncodeToString(hasher.Sum(nil))
+
+	// Cut the length down to 32 bytes and return.
+	return stringToSHA256[:32], nil
 }
 
 func getvminfo(ctx context.Context, c *govmomi.Client, theVM *object.VirtualMachine, path string, dc *object.Datacenter) vm {
@@ -286,8 +333,16 @@ func (bt *Vspherebeat) Run(b *beat.Beat) error {
 	if err != nil {
 		fmt.Printf("%s\n", err)
 	}
-	myCipher, err := blowfish.NewCipher("tutu")
-	u.User = url.UserPassword(bt.config.UserName, bt.config.Password)
+	var password string
+	if bt.config.EncPassword {
+		password, err = decryptString(bt.config.Password, encryptionKey)
+		if err != nil {
+			log.Fatal(err)
+		}
+	} else {
+		password = bt.config.Password
+	}
+	u.User = url.UserPassword(bt.config.UserName, password)
 	c, err := govmomi.NewClient(ctx, u, false)
 	if err != nil {
 		log.Fatal(err)

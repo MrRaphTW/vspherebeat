@@ -1,0 +1,8 @@
+{
+    "title":"capa.vsphere.title",
+    "type":"markdown",
+    "params":{
+        "markdown":"# Capacity Planning for the Vsphere Hypervisors"},
+        "aggs":[],
+        "listeners":{}
+}

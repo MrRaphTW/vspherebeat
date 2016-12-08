@@ -1,0 +1,5 @@
+$nbhosts=.es(index=vspherebeat*, q="vsphereType:Cluster",metric="sum:nbHosts",kibana=true).if(eq,0,null),
+$nbvms=.es(index=vspherebeat*,q="vsphereType:VirtualMachine",metric="cardinality:cluster",kibana=true).if(eq,0,null),
+($nbhosts).trend(mode="linear").color("#CCC").lines(10).label("Hosts evolution"),
+($nbhosts).label("Hosts"),($nbvms).trend(mode="linear").color("#CCC").lines(10).label("VMs evolution"),
+($nbvms).label("VMs").title("VMs and Hosts")
