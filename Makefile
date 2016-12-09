@@ -15,6 +15,7 @@ PREFIX?=.
 .PHONY: vspherebeat
 
 vspherebeat-secured:  $(GOFILES_ALL)
+	make before-build
 	go build -ldflags="-X git.teamwork.net/BeatsTeamwork/vspherebeat/beater.encryptionKey=${SALT_KEY}"
 	go build encryptPassword/encryptpassword.go
 
@@ -56,6 +57,7 @@ git-init:
 # This is called by the beats packer before building starts
 .PHONY: before-build
 before-build:
+	python kibanaBuilder/builder.py --source _meta/kibana.raw --dest _meta/kibana
 
 # Collects all dependencies and then calls update
 .PHONY: collect
