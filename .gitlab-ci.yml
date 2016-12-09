@@ -1,21 +1,10 @@
 image: golang
 
-variables:
-  PROJECT_PATH: "/go/src/git.teamwork.net/$CI_PROJECT_PATH"
-
-before_script:
-  - mkdir -p $PROJECT_PATH
-  - cp -R * $PROJECT_PATH
-  - cd $PROJECT_PATH
-  - rm -R /builds/$CI_PROJECT_PATH
-  - ln -s $PROJECT_PATH /builds/$CI_PROJECT_NAMESPACE
-  - cd /builds/$CI_PROJECT_PATH
-  - ls -l
-  - go get
-
 
 build:
   stage: build
   script:
     - ls -l
     - pwd
+  tags:
+    - go
