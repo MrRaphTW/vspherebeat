@@ -8,4 +8,4 @@ test:
   script:
     - make testsuite
   tags:
-    - go
+    - go 
