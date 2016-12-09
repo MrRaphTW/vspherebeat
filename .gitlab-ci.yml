@@ -1,11 +1,11 @@
+before-script:
+  - go get
+  - make setup
+  - make update
+  
 test:
   stage: build
   script:
-    - go get
-    - make setup
-    - make update
     - make testsuite
-    - ls -l
-    - pwd 
   tags:
     - go
