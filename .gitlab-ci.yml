@@ -1,9 +1,13 @@
 image: golang
 
 
-build:
+test:
   stage: build
   script:
+    - go get
+    - make setup
+    - make update
+    - make testsuite
     - ls -l
     - pwd
   tags:
