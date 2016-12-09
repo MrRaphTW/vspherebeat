@@ -1,4 +1,4 @@
-before-script:
+before_script:
   - go get
   - make setup
   - make update
