@@ -1,6 +1,3 @@
-image: golang
-
-
 test:
   stage: build
   script:
