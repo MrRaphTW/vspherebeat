@@ -2,10 +2,11 @@ before_script:
   - go get
   - make setup
   - make update
-  
+
 test:
   stage: build
   script:
+    - go get github.com/stretchr/testify/assert
     - make testsuite
   tags:
-    - go 
+    - go
