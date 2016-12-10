@@ -1,13 +1,8 @@
-variables:
-  DOCKER_DRIVER: overlay
-
-services:
-- docker:dind
-
 before_script:
   - go get
   - make setup
   - make update
+  - service docker start
 
 test:
   stage: test
