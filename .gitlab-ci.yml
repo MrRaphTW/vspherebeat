@@ -1,5 +1,10 @@
+variables:
+  DOCKER_DRIVER: overlay
+
+services:
+- docker:dind
+
 before_script:
-  - whoami
   - go get
   - make setup
   - make update
