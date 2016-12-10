@@ -25,4 +25,4 @@ build:
     - make package-setup
     - make package
   tags:
-    - go
+    - go 
