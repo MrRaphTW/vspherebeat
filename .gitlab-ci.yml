@@ -4,9 +4,16 @@ before_script:
   - make update
 
 test:
-  stage: build
+  stage: test
   script:
     - go get github.com/stretchr/testify/assert
     - make testsuite
+  tags:
+    - go
+
+build:
+  stage: build
+  script:
+    - make package
   tags:
     - go
