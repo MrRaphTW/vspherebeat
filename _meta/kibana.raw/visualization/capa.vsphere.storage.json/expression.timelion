@@ -1,5 +1,5 @@
-$capa=.es(index=vspherebeat*,q="vsphereType:DataStore",metric="sum:capacity",kibana=true).fit(mode="nearest").divide(1024).divide(1024).divide(1024),
-$freespace=.es(index=vspherebeat*,q="vsphereType:DataStore",metric="sum:freeSpace",kibana=true).divide(1024).divide(1024).divide(1024).if(eq,0,null),
+$capa=.es(index=vspherebeat*,q="vsphere_type:DataStore",metric="sum:capacity",kibana=true).fit(mode="nearest").divide(1024).divide(1024).divide(1024),
+$freespace=.es(index=vspherebeat*,q="vsphere_type:DataStore",metric="sum:free_space",kibana=true).divide(1024).divide(1024).divide(1024).if(eq,0,null),
 $conso=($capa).subtract($freespace),
 ($capa).label("Capacity").yaxis(label="GB of DiskSpace"),
 ($conso).trend(mode="linear").lines(10).color("#CCC").label("Evolution of Disk Space allocated"),

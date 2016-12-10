@@ -17,16 +17,16 @@ func TestClusterEventRender(t *testing.T) {
 	//we have no change that @timestamp time.Now() is the same, so we take the
 	// one created, this is not tested then.
 	expectedResult := common.MapStr{
-		"type":              "i",
-		"dc":                "a",
-		"name":              "b",
-		"totalCPU":          int16(3),
-		"totalMemory":       int64(4),
-		"nbHosts":           int32(5),
-		"path":              "f",
-		"cpuOverallocPreco": int(7),
-		"ramOverallocPreco": int(8),
-		"vsphereType":       "Cluster",
+		"type":                "i",
+		"dc":                  "a",
+		"name":                "b",
+		"total_cpu":           int16(3),
+		"total_memory":        int64(4),
+		"hosts_count":         int32(5),
+		"path":                "f",
+		"cpu_overalloc_preco": int(7),
+		"ram_overalloc_preco": int(8),
+		"vsphere_type":        "Cluster",
 	}
 
 	for key, value := range realResult {
@@ -55,15 +55,15 @@ func TestVMEventRender(t *testing.T) {
 	//we have no change that @timestamp time.Now() is the same, so we take the
 	// one created, this is not tested then.
 	expectedResult := common.MapStr{
-		"type":        "h",
-		"name":        "a",
-		"dc":          "b",
-		"path":        "c",
-		"cluster":     "d",
-		"cpuLimit":    int32(5),
-		"memoryLimit": int32(6),
-		"diskLimit":   int64(7),
-		"vsphereType": "VirtualMachine",
+		"type":         "h",
+		"name":         "a",
+		"dc":           "b",
+		"path":         "c",
+		"cluster":      "d",
+		"cpu_limit":    int32(5),
+		"memory_limit": int32(6),
+		"disk_limit":   int64(7),
+		"vsphere_type": "VirtualMachine",
 	}
 
 	for key, value := range realResult {
@@ -85,14 +85,14 @@ func TestDataStoreEventRender(t *testing.T) {
 	//we have no change that @timestamp time.Now() is the same, so we take the
 	// one created, this is not tested then.
 	expectedResult := common.MapStr{
-		"type":               "g",
-		"dc":                 "a",
-		"name":               "b",
-		"capacity":           int64(3),
-		"freeSpace":          int64(4),
-		"path":               "e",
-		"diskOverallocPreco": int(6),
-		"vsphereType":        "DataStore",
+		"type":                 "g",
+		"dc":                   "a",
+		"name":                 "b",
+		"capacity":             int64(3),
+		"free_space":           int64(4),
+		"path":                 "e",
+		"disk_overalloc_preco": int(6),
+		"vsphere_type":         "DataStore",
 	}
 
 	for key, value := range realResult {

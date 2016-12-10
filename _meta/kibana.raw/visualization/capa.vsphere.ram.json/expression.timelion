@@ -1,5 +1,5 @@
-$capa=.es(index=vspherebeat*,q="vsphereType:Cluster",metric="sum:totalMemory",kibana=true).fit(mode="nearest").divide(1024).divide(1024).divide(1024),
-$conso=.es(index=vspherebeat*,q="vsphereType:VirtualMachine",metric="sum:memoryLimit",kibana=true).divide(1024).if(eq,0,null),
+$capa=.es(index=vspherebeat*,q="vsphere_type:Cluster",metric="sum:total_memory",kibana=true).fit(mode="nearest").divide(1024).divide(1024).divide(1024),
+$conso=.es(index=vspherebeat*,q="vsphere_type:VirtualMachine",metric="sum:memory_limit",kibana=true).divide(1024).if(eq,0,null),
 ($capa).label("Capacity").yaxis(label="GB of RAM"),
 ($conso).trend(mode="linear").lines(10).color("#CCC").label("Evolution of RAM Assigned"),
 ($conso).label("RAM assigned to VMs").title("RAM")

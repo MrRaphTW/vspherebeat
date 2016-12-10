@@ -6,3 +6,7 @@
 /vspherebeat.test
 *.pyc
 /_meta/kibana/*
+vspherebeat.full.yml
+vspherebeat.template-es2x.json
+vspherebeat.template.json
+vspherebeat.yml

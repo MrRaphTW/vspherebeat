@@ -20,17 +20,17 @@ type cluster struct {
 
 func (theCluster cluster) eventRender(b *beat.Beat) common.MapStr {
 	event := common.MapStr{
-		"@timestamp":        common.Time(time.Now()),
-		"type":              b.Name,
-		"dc":                theCluster.dc,
-		"name":              theCluster.name,
-		"totalCPU":          theCluster.totalCPU,
-		"totalMemory":       theCluster.totalMemory,
-		"nbHosts":           theCluster.nbHosts,
-		"path":              theCluster.path,
-		"cpuOverallocPreco": theCluster.cpuOverallocPreco,
-		"ramOverallocPreco": theCluster.ramOverallocPreco,
-		"vsphereType":       "Cluster",
+		"@timestamp":          common.Time(time.Now()),
+		"type":                b.Name,
+		"dc":                  theCluster.dc,
+		"name":                theCluster.name,
+		"total_cpu":           theCluster.totalCPU,
+		"total_memory":        theCluster.totalMemory,
+		"hosts_count":         theCluster.nbHosts,
+		"path":                theCluster.path,
+		"cpu_overalloc_preco": theCluster.cpuOverallocPreco,
+		"ram_overalloc_preco": theCluster.ramOverallocPreco,
+		"vsphere_type":        "Cluster",
 	}
 	return event
 }
@@ -47,16 +47,16 @@ type vm struct {
 
 func (theVM vm) eventRender(b *beat.Beat) common.MapStr {
 	event := common.MapStr{
-		"@timestamp":  common.Time(time.Now()),
-		"name":        theVM.name,
-		"type":        b.Name,
-		"dc":          theVM.dc,
-		"path":        theVM.path,
-		"cluster":     theVM.cluster,
-		"cpuLimit":    theVM.cpuLimit,
-		"memoryLimit": theVM.memoryLimit,
-		"diskLimit":   theVM.diskLimit,
-		"vsphereType": "VirtualMachine",
+		"@timestamp":   common.Time(time.Now()),
+		"name":         theVM.name,
+		"type":         b.Name,
+		"dc":           theVM.dc,
+		"path":         theVM.path,
+		"cluster":      theVM.cluster,
+		"cpu_limit":    theVM.cpuLimit,
+		"memory_limit": theVM.memoryLimit,
+		"disk_limit":   theVM.diskLimit,
+		"vsphere_type": "VirtualMachine",
 	}
 	return event
 }
@@ -72,15 +72,15 @@ type datastore struct {
 
 func (theDS datastore) eventRender(b *beat.Beat) common.MapStr {
 	event := common.MapStr{
-		"@timestamp":         common.Time(time.Now()),
-		"type":               b.Name,
-		"dc":                 theDS.dc,
-		"name":               theDS.name,
-		"capacity":           theDS.capacity,
-		"freeSpace":          theDS.freeSpace,
-		"path":               theDS.path,
-		"diskOverallocPreco": theDS.diskOverallocPreco,
-		"vsphereType":        "DataStore",
+		"@timestamp":           common.Time(time.Now()),
+		"type":                 b.Name,
+		"dc":                   theDS.dc,
+		"name":                 theDS.name,
+		"capacity":             theDS.capacity,
+		"free_space":           theDS.freeSpace,
+		"path":                 theDS.path,
+		"disk_overalloc_preco": theDS.diskOverallocPreco,
+		"vsphere_type":         "DataStore",
 	}
 	return event
 }
