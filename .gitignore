@@ -5,3 +5,4 @@
 /vspherebeat
 /vspherebeat.test
 *.pyc
+/_meta/kibana/*

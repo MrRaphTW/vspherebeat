@@ -25,7 +25,7 @@ full-clean:
 	rm *.json
 	rm *.yml
 	rm -rf vendor
-	rm encryptpassword
+	rm encryptPassword
 
 # Initial beat setup
 .PHONY: setup

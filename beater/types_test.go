@@ -3,31 +3,29 @@ package beater
 import (
 	"testing"
 
+	"github.com/elastic/beats/libbeat/beat"
 	"github.com/elastic/beats/libbeat/common"
+	"github.com/stretchr/testify/assert"
 )
 
-type mockBeatInterface struct {
-	Name string
-}
+func TestClusterEventRender(t *testing.T) {
 
-func testClusterfuncs(t *testing.T) {
 	// This tests evenRender for cluster, and also jsonRenderOnScreen
 	testCluster := cluster{dc: "a", name: "b", totalCPU: 3, totalMemory: 4, nbHosts: 5, path: "f", cpuOverallocPreco: 7, ramOverallocPreco: 8}
-	myBeat := mockBeatInterface{Name: "i"}
+	myBeat := &beat.Beat{Name: "i"}
 	realResult := testCluster.eventRender(myBeat)
-	testCluster.jsonRenderOnScreen()
 	//we have no change that @timestamp time.Now() is the same, so we take the
 	// one created, this is not tested then.
 	expectedResult := common.MapStr{
 		"type":              "i",
 		"dc":                "a",
 		"name":              "b",
-		"totalCPU":          3,
-		"totalMemory":       4,
-		"nbHosts":           5,
-		"path":              'f',
-		"cpuOverallocPreco": 7,
-		"ramOverallocPreco": 8,
+		"totalCPU":          int16(3),
+		"totalMemory":       int64(4),
+		"nbHosts":           int32(5),
+		"path":              "f",
+		"cpuOverallocPreco": int(7),
+		"ramOverallocPreco": int(8),
 		"vsphereType":       "Cluster",
 	}
 
@@ -35,20 +33,25 @@ func testClusterfuncs(t *testing.T) {
 		//we have no chance that @timestamp time.Now() is the same, so we take the
 		// one created, this is not tested then.
 		if key != "@timestamp" {
-			if expectedResult[key] != value {
-				t.Error("For Cluster, event rendered is not what is expected.")
-			}
+			assert.Equal(t, expectedResult[key], value, key)
 		}
 	}
 
 }
 
-func testVMfuncs(t *testing.T) {
+func TestVMEventRender(t *testing.T) {
 	// This tests evenRender for cluster, and also jsonRenderOnScreen
-	testVM := vm{name: "a", dc: "b", path: "c", cluster: "d", cpuLimit: 5, memoryLimit: 6, diskLimit: 7}
-	myBeat := mockBeatInterface{Name: "h"}
+	testVM := vm{
+		name:        "a",
+		dc:          "b",
+		path:        "c",
+		cluster:     "d",
+		cpuLimit:    5,
+		memoryLimit: 6,
+		diskLimit:   7,
+	}
+	myBeat := &beat.Beat{Name: "h"}
 	realResult := testVM.eventRender(myBeat)
-	testVM.jsonRenderOnScreen()
 	//we have no change that @timestamp time.Now() is the same, so we take the
 	// one created, this is not tested then.
 	expectedResult := common.MapStr{
@@ -57,9 +60,9 @@ func testVMfuncs(t *testing.T) {
 		"dc":          "b",
 		"path":        "c",
 		"cluster":     "d",
-		"cpuLimit":    5,
-		"memoryLimit": 6,
-		"diskLimit":   7,
+		"cpuLimit":    int32(5),
+		"memoryLimit": int32(6),
+		"diskLimit":   int64(7),
 		"vsphereType": "VirtualMachine",
 	}
 
@@ -67,30 +70,28 @@ func testVMfuncs(t *testing.T) {
 		//we have no chance that @timestamp time.Now() is the same, so we take the
 		// one created, this is not tested then.
 		if key != "@timestamp" {
-			if expectedResult[key] != value {
-				t.Error("For VM, event rendered is not what is expected.")
-			}
+			assert.Equal(t, expectedResult[key], value, key)
+
 		}
 	}
 
 }
 
-func testDataStorefuncs(t *testing.T) {
+func TestDataStoreEventRender(t *testing.T) {
 	// This tests evenRender for cluster, and also jsonRenderOnScreen
 	testDS := datastore{dc: "a", name: "b", capacity: 3, freeSpace: 4, path: "e", diskOverallocPreco: 6}
-	myBeat := mockBeatInterface{Name: "g"}
+	myBeat := &beat.Beat{Name: "g"}
 	realResult := testDS.eventRender(myBeat)
-	testDS.jsonRenderOnScreen()
 	//we have no change that @timestamp time.Now() is the same, so we take the
 	// one created, this is not tested then.
 	expectedResult := common.MapStr{
 		"type":               "g",
 		"dc":                 "a",
 		"name":               "b",
-		"capacity":           3,
-		"freeSpace":          "eee",
-		"path":               "qdsqds",
-		"diskOverallocPreco": 6,
+		"capacity":           int64(3),
+		"freeSpace":          int64(4),
+		"path":               "e",
+		"diskOverallocPreco": int(6),
 		"vsphereType":        "DataStore",
 	}
 
@@ -98,9 +99,8 @@ func testDataStorefuncs(t *testing.T) {
 		//we have no chance that @timestamp time.Now() is the same, so we take the
 		// one created, this is not tested then.
 		if key != "@timestamp" {
-			if expectedResult[key] != value {
-				t.Error("For VM, event rendered is not what is expected.")
-			}
+			assert.Equal(t, expectedResult[key], value, key)
+
 		}
 	}
 
