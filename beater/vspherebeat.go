@@ -49,10 +49,13 @@ func (theCluster cluster) jsonRenderOnScreen() {
 	fmt.Printf("{\"name\":\"%s\", \"dc\":\"%s\", \"totalCPU\":\"%d\", \"totalMemory\":\"%d\", \"nbHosts\":\"%d\", \"path\":\"%s\", \"vsphereType\":\"Cluster\"}\n", theCluster.name, theCluster.dc, theCluster.totalCPU, theCluster.totalMemory, theCluster.nbHosts, theCluster.path)
 }
 
-func (theCluster cluster) eventRender(b *beat.Beat) common.MapStr {
+type beatInterface interface {
+}
+
+func (theCluster cluster) eventRender(b beatInterface) common.MapStr {
 	event := common.MapStr{
 		"@timestamp":        common.Time(time.Now()),
-		"type":              b.Name,
+		"type":              b.(beat.Beat).Name,
 		"dc":                theCluster.dc,
 		"name":              theCluster.name,
 		"totalCPU":          theCluster.totalCPU,
@@ -80,10 +83,11 @@ func (theVM vm) jsonRenderOnScreen() {
 	fmt.Printf("{\"name\":\"%s\", \"dc\":\"%s\", \"path\":\"%s\", \"cluster\":\"%s\", \"cpuLimit\":\"%d\", \"memoryLimit\":\"%d\", \"diskLimit\":\"%d\", \"vsphereType\":\"VirtualMachine\"}\n", theVM.name, theVM.dc, theVM.path, theVM.cluster, theVM.cpuLimit, theVM.memoryLimit, theVM.diskLimit)
 }
 
-func (theVM vm) eventRender(b *beat.Beat) common.MapStr {
+func (theVM vm) eventRender(b beatInterface) common.MapStr {
 	event := common.MapStr{
 		"@timestamp":  common.Time(time.Now()),
-		"type":        b.Name,
+		"name":        theVM.name,
+		"type":        b.(beat.Beat).Name,
 		"dc":          theVM.dc,
 		"path":        theVM.path,
 		"cluster":     theVM.cluster,
@@ -108,10 +112,10 @@ func (theDS datastore) jsonRenderOnScreen() {
 	fmt.Printf("{\"name\":\"%s\", \"dc\":\"%s\", \"capacity\":\"%d\", \"freespace\":\"%d\", \"path\":\"%s\", \"vsphereType\":\"DataStore\"}\n", theDS.name, theDS.dc, theDS.capacity, theDS.freeSpace, theDS.path)
 }
 
-func (theDS datastore) eventRender(b *beat.Beat) common.MapStr {
+func (theDS datastore) eventRender(b beatInterface) common.MapStr {
 	event := common.MapStr{
 		"@timestamp":         common.Time(time.Now()),
-		"type":               b.Name,
+		"type":               b.(beat.Beat).Name,
 		"dc":                 theDS.dc,
 		"name":               theDS.name,
 		"capacity":           theDS.capacity,
