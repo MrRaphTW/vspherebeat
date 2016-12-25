@@ -67,6 +67,6 @@ def handleJsonFolder(thePath):
 
 if args.source[-1] != '/':
     args.source += '/'
-if args.dest[-2] != '/':
+if args.dest[-1] != '/':
     args.dest += '/'
 parseFolder(args.source)

@@ -131,7 +131,7 @@ func getAllClusterInfo(ctx context.Context, c *govmomi.Client, f *find.Finder, d
 }
 
 func getAllDSInfo(ctx context.Context, c *govmomi.Client, f *find.Finder, dc *object.Datacenter, diskOverallocPreco int) []datastore {
-	dss, err := f.DatastoreClusterList(ctx, "*")
+	dss, err := f.DatastoreList(ctx, "*")
 	if err != nil {
 		fmt.Printf("%s\n", err)
 	}
@@ -140,7 +140,7 @@ func getAllDSInfo(ctx context.Context, c *govmomi.Client, f *find.Finder, dc *ob
 	var datastores []datastore
 	for _, ds := range dss {
 		refds := ds.Reference()
-		var dst mo.StoragePod
+		var dst mo.Datastore
 		err = pc.RetrieveOne(ctx, refds, []string{"summary"}, &dst)
 		if err != nil {
 			fmt.Printf("%s\n", err)

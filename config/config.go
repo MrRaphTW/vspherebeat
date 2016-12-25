@@ -3,24 +3,22 @@
 
 package config
 
-import "time"
-
 // Config structure that handles all options for the beat and especially one to connect to vsphere
 type Config struct {
-	Period           time.Duration `config:"period"`
-	URL              string        `config:"URL"`
-	UserName         string        `config:"UserName"`
-	Password         string        `config:"Password"`
-	EncPassword      bool          `config:"EncPassword"`
-	Insecure         bool          `config:"Insecure"`
-	PrecoCPUPercent  int           `config:"PrecoCPUPercent"`
-	PrecoRAMPercent  int           `config:"PrecoRAMPercent"`
-	PrecoDiskPercent int           `config:"PrecoDiskPercent"`
+	Cron             string `config:"Cron"`
+	URL              string `config:"URL"`
+	UserName         string `config:"UserName"`
+	Password         string `config:"Password"`
+	EncPassword      bool   `config:"EncPassword"`
+	Insecure         bool   `config:"Insecure"`
+	PrecoCPUPercent  int    `config:"PrecoCPUPercent"`
+	PrecoRAMPercent  int    `config:"PrecoRAMPercent"`
+	PrecoDiskPercent int    `config:"PrecoDiskPercent"`
 }
 
 // DefaultConfig is the object to have the default configuration if a parameter is missing.
 var DefaultConfig = Config{
-	Period:           24 * 7 * time.Hour,
+	Cron:             "@daily",
 	URL:              "",
 	UserName:         "",
 	Password:         "",
