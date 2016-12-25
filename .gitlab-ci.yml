@@ -8,7 +8,7 @@ before_script:
   - go get
   - make setup
   - make update
-  #- service docker start
+  - service docker start
 
 test:
   stage: test
