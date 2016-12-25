@@ -9,7 +9,7 @@ before_script:
   - make setup
   - make update
   - service docker start
-
+ 
 test:
   stage: test
   script:
