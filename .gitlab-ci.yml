@@ -26,3 +26,18 @@ build:
     - make package
   tags:
     - go 
+
+push_to_github:
+    stage: build
+    when: manual
+    script:
+        - bash -c "git remote remove github; exit 0"
+        - git status
+        - git remote add github $GIT_HUB_URL
+        - git config --global user.email "noreply@teamwork.net"
+        - git config --global user.name "TeamWork"        
+        - git checkout master
+        - git pull origin master
+        - git status
+        - bash -c "git push --force github master 2>&1 | grep -v github; echo $?"
+        - git remote remove github
