@@ -5,7 +5,7 @@ TEST_ENVIRONMENT=false
 ES_BEATS?=./vendor/github.com/elastic/beats
 GOPACKAGES=$(shell glide novendor)
 PREFIX?=.
-VIRTUALENV_PARAMS="-p python3"
+VIRTUALENV_PARAMS="-p /usr/bin/python3"
 
 # Path to the libbeat Makefile
 -include $(ES_BEATS)/libbeat/scripts/Makefile
