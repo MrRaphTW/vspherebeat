@@ -1,3 +1,7 @@
+stages:
+  - test
+  - build
+
 variables:
   DOCKER_DRIVER: overlay
 
@@ -9,7 +13,7 @@ before_script:
   - make setup
   - make update
   - service docker start
- 
+
 test:
   stage: test
   script:
@@ -25,7 +29,7 @@ build:
     - make package-setup
     - make package
   tags:
-    - go 
+    - go
 
 push_to_github:
     stage: build
@@ -35,7 +39,7 @@ push_to_github:
         - git status
         - git remote add github $GIT_HUB_URL
         - git config --global user.email "noreply@teamwork.net"
-        - git config --global user.name "TeamWork"        
+        - git config --global user.name "TeamWork"
         - git checkout master
         - git pull origin master
         - git status
