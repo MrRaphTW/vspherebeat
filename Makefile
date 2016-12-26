@@ -57,7 +57,7 @@ git-init:
 # This is called by the beats packer before building starts
 .PHONY: before-build
 before-build:
-	python kibanaBuilder/builder.py --source _meta/kibana.raw --dest _meta/kibana
+	python3 kibanaBuilder/builder.py --source _meta/kibana.raw --dest _meta/kibana
 
 # Collects all dependencies and then calls update
 .PHONY: collect
