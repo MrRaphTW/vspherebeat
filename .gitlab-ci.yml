@@ -28,7 +28,9 @@ build:
     - make install-home
     - make package-setup
     - make package
-    - find build -exec ls -ld {} \;
+  artifacts:
+    paths:
+      - build/uploads
   tags:
     - go
 
