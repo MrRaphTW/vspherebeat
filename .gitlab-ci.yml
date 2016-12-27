@@ -30,7 +30,7 @@ build:
     - make package
   artifacts:
     paths:
-      - build/uploads
+      - build/upload/*
   tags:
     - go
 
