@@ -1,9 +1,14 @@
 stages:
   - test
   - build
+  - publish
 
 variables:
   DOCKER_DRIVER: overlay
+
+cache:
+  paths:
+    - build/
 
 services:
 - docker:dind
@@ -31,12 +36,13 @@ build:
   artifacts:
     paths:
       - build/upload/*
+  only:
+    - tags
   tags:
     - go
 
 push_to_github:
-    stage: build
-    when: manual
+    stage: publish
     script:
         - bash -c "git remote remove github; exit 0"
         - git status
@@ -48,3 +54,18 @@ push_to_github:
         - git status
         - bash -c "git push --force github master 2>&1 | grep -v github; echo $?"
         - git remote remove github
+
+push_realease_to_github:
+    stage: publish
+    image: git.teamwork.net:5043/docker/github-release:lastest
+    script:
+      - export GITHUB_TOKEN=${GIT_HUB_TOKEN}
+      - echo "Deleting release from github before creating new one"
+      - github-release delete --user TeamWorkSI --repo vspherebeat --tag ${CI_BUILD_TAG}
+      - echo "Creating a new release in github"
+      - github-release release --user --user TeamWorkSI --repo vspherebeat --tag ${CI_BUILD_TAG} --name "${CI_BUILD_TAG}"
+
+      - echo "Uploading the artifacts into github"
+      - bash -c 'for file in $(ls build/upload/);do echo  github-release upload --user --user TeamWorkSI --repo vspherebeat --tag ${CI_BUILD_TAG} --name $file --file $file;done;'
+    only:
+      - tags
