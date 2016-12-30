@@ -58,10 +58,12 @@ push_to_github:
 push_realease_to_github:
     stage: publish
     image: git.teamwork.net:5043/docker/github-release:latest
-    script:
+    before_script:
       - export GITHUB_TOKEN=${GIT_HUB_TOKEN}
       - echo "Deleting release from github before creating new one"
       - github-release delete --user TeamWorkSI --repo vspherebeat --tag ${CI_BUILD_TAG}
+    script:
+      - export GITHUB_TOKEN=${GIT_HUB_TOKEN}
       - echo "Creating a new release in github"
       - github-release release --user --user TeamWorkSI --repo vspherebeat --tag ${CI_BUILD_TAG} --name "${CI_BUILD_TAG}"
 
