@@ -34,6 +34,7 @@ build:
     - make package-setup
     - make package
   artifacts:
+    name: "$CI_BUILD_REF_NAME"
     paths:
       - build/upload/*
   only:
