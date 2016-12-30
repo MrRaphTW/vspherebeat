@@ -43,9 +43,10 @@ build:
 
 push_to_github:
     stage: publish
-    script:
+    before_script:
         - bash -c "git remote remove github; exit 0"
         - git status
+    script:
         - git remote add github $GIT_HUB_URL
         - git config --global user.email "noreply@teamwork.net"
         - git config --global user.name "TeamWork"
@@ -61,7 +62,7 @@ push_realease_to_github:
     before_script:
       - export GITHUB_TOKEN=${GIT_HUB_TOKEN}
       - echo "Deleting release from github before creating new one"
-      - github-release delete --user TeamWorkSI --repo vspherebeat --tag ${CI_BUILD_TAG}
+      - bash -c "github-release delete --user TeamWorkSI --repo vspherebeat --tag ${CI_BUILD_TAG}; exit 0"
     script:
       - export GITHUB_TOKEN=${GIT_HUB_TOKEN}
       - echo "Creating a new release in github"
