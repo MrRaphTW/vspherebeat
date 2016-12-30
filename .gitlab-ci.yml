@@ -57,7 +57,7 @@ push_to_github:
 
 push_realease_to_github:
     stage: publish
-    image: git.teamwork.net:5043/docker/github-release:lastest
+    image: git.teamwork.net:5043/docker/github-release:latest
     script:
       - export GITHUB_TOKEN=${GIT_HUB_TOKEN}
       - echo "Deleting release from github before creating new one"
