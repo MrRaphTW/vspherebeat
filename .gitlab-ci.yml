@@ -66,9 +66,9 @@ push_realease_to_github:
     script:
       - export GITHUB_TOKEN=${GIT_HUB_TOKEN}
       - echo "Creating a new release in github"
-      - github-release release --user --user TeamWorkSI --repo vspherebeat --tag ${CI_BUILD_TAG} --name "${CI_BUILD_TAG}"
+      - github-release release --user TeamWorkSI --repo vspherebeat --tag "${CI_BUILD_TAG}" --name "${CI_BUILD_TAG}"
 
       - echo "Uploading the artifacts into github"
-      - bash -c 'for file in $(ls build/upload/);do echo  github-release upload --user --user TeamWorkSI --repo vspherebeat --tag ${CI_BUILD_TAG} --name $file --file $file;done;'
+      - bash -c 'for file in $(ls build/upload/);do echo  github-release upload --user TeamWorkSI --repo vspherebeat --tag "${CI_BUILD_TAG}" --name "$file" --file "$file";done;'
     only:
       - tags
